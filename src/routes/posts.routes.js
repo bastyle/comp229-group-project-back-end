@@ -22,4 +22,10 @@ router.get('/', postController.displayPostList);
 /* POST Route for processing the Add Post Page */
 router.post('/add', postController.addPost);
 
+/* POST Route - Process Update by Post ID */
+router.post('/edit/:id', postController.editPost);
+
+/* DELETE Route - Delete Post by Post ID */
+router.delete('/delete/:id', postController.deletePost);
+
 module.exports = router;
