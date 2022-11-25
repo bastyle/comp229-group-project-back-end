@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "6ec781ce-f8e6-4b40-aae7-bde8a4fe1a76",
+		"name": "comp229-group-project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7215557"
+	},
+	"item": [
+		{
+			"name": "get posts",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "add post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"title\":\"test postman\",\r\n\"publisher\": \"postman\",\r\n\"content\":\"content form postman\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/post/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"post",
+						"add"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
