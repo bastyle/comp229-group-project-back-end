@@ -13,7 +13,25 @@ module.exports.displayPostList = (req, res, next) => {
         } else {
             console.log("postList..."+postList);
             res.status(200).send(postList);
-            //res.json(postList);
+        }
+    });
+}
+
+module.exports.addPost = (req, res, next) => {
+    let newPost = Post({
+        "title": req.body.title,
+        "publisher": req.body.publisher,
+        "content": req.body.content,        
+        "created": new Date(),
+        "updated": new Date()
+    });
+
+    Post.create(newPost, (err, Post) =>{
+        if(err){
+            console.log(err);
+            res.end(err);
+        } else {
+            res.status(201).json({success: true, msg: 'Successfully Added New Post'});
         }
     });
 }

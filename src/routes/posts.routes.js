@@ -20,6 +20,6 @@ function requireAuth(req, res, next) {
 router.get('/', postController.displayPostList);
 
 /* POST Route for processing the Add Post Page */
-//router.post('/add', postController.processAddPage);
+router.post('/add', postController.addPost);
 
 module.exports = router;
