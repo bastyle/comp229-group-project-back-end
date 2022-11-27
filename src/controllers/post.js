@@ -26,7 +26,7 @@ module.exports.getPost = (req, res, next) => {
         if(err) {
             return console.error(err);
         } else {
-            console.log("postList..."+postToEdit);
+            console.log("post..."+postToEdit);
             res.status(200).send(postToEdit);
         }
     });
