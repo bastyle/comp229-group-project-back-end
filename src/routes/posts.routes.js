@@ -19,6 +19,8 @@ function requireAuth(req, res, next) {
 /* GET List page -- READ Operation */
 router.get('/', postController.displayPostList);
 
+router.get('/:id', postController.getPost);
+
 /* POST Route for processing the Add Post Page */
 router.post('/add', postController.addPost);
 

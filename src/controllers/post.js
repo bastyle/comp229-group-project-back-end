@@ -7,7 +7,7 @@ let Post = require('../models/post');
 module.exports.displayPostList = (req, res, next) => {
     console.log("controller::displayPostList");
     Post.find((err, postList) => {
-        console.log("err..."+err)
+        //console.log("err..."+err)
         if(err) {            
             return console.error(err);
         } else {
@@ -16,6 +16,22 @@ module.exports.displayPostList = (req, res, next) => {
         }
     });
 }
+
+
+module.exports.getPost = (req, res, next) => {
+    let id = req.params.id;
+    console.log("controller::getPost id: "+id);
+    Post.findById(id, (err, postToEdit) => {
+        console.log("err..."+err);
+        if(err) {
+            return console.error(err);
+        } else {
+            console.log("postList..."+postToEdit);
+            res.status(200).send(postToEdit);
+        }
+    });
+}
+
 
 //  Add New Post - CREATE OPERATION
 module.exports.addPost = (req, res, next) => {
@@ -62,6 +78,7 @@ module.exports.editPost = (req, res, next) => {
 
 //  Delete Existing Post - DELETE OPERATION
 module.exports.deletePost = (req, res, next) => {
+    console.log("deleting: "+req.params.id);
     let id = req.params.id;
 
     Post.findByIdAndRemove({_id: id}, (err) => {
