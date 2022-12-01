@@ -3,28 +3,13 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
-
 let cors = require('cors');
 
-// modules for authentication
-/*let session = require('express-session');
-let passport = require('passport');
-
-let passportJWT = require('passport-jwt');
-let JWTStrategy = passportJWT.Strategy;
-let ExtractJWT = passportJWT.ExtractJwt;
-
-let passportLocal = require('passport-local');
-let localStrategy = passportLocal.Strategy;*/
-
 let flash = require('connect-flash');
-
-// import "mongoose" - required for DB Access
 let mongoose = require('mongoose');
-// URI
 let DB = require('./database');
 
-//console.log("url:: "+ DB.URI);
+
 mongoose.connect(process.env.URI || DB.URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let mongoDB = mongoose.connection;
@@ -38,6 +23,7 @@ mongoDB.once('open', () => {
 // define routers
 let index = require('../routes/index.routes.js'); // top level routes
 let post = require('../routes/posts.routes.js'); // routes for posts
+let login = require('../routes/login.routes'); // routes for login
 
 let app = express();
 
@@ -55,53 +41,65 @@ app.use(cookieParser());
 app.use(cors());
 app.use(flash());
 
-//setup express session
-/*app.use(session({
-  secret: "SomeSecret",
-  saveUninitialized: false,
-  resave: false
-}));
-// initialize flash
-app.use(flash());
+//auth
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+const passportJWT = require("passport-jwt");
 
-// initialize passport
-app.use(passport.initialize());
-app.use(passport.session());
+var jwt_obj = {
+    secretOrKey: "sdfghj1k234567gbnm5vbnm",
+    jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderWithScheme("jwt")
+}
 
-// passport user configuration
-
-// create a User Model Instance
-let userModel = require('../models/user');
-let User = userModel.User;
-
-// implement a User Authentication Strategy
-passport.use(User.createStrategy());
-
-// serialize and deserialize the User info
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-let jwtOptions = {};
-jwtOptions.jwtFromRequest = ExtractJWT.fromAuthHeaderAsBearerToken();
-jwtOptions.secretOrKey = DB.Secret;
-
-let strategy = new JWTStrategy(jwtOptions, (jwt_payload, done) => {
-  User.findById(jwt_payload.id)
-    .then(user => {
-      return done(null, user);
-    })
-    .catch(err => {
-      return done(err, false);
-    });
+var StrategyJWT = passportJWT.Strategy;
+var strategy = new StrategyJWT(jwt_obj, function (jwt_payload, next) {
+    console.log("payload: " + jwt_payload);
+    if (jwt_payload)
+        next(null, {
+            userName: jwt_payload.userName,
+            fullName: jwt_payload.fullName,
+            role: jwt_payload.role
+        });
+    else{
+        next(null, false);
+    }
 });
 
 passport.use(strategy);
+app.use(passport.initialize());
 
-*/
+app.use(cors());
+app.use(express.json());
+
+let userController = require('../controllers/user');
+
+app.get("/api", function (req, res) {
+    res.json({ msg: "Hello" });
+});
+
+app.post("/api/login", function (req, res) {
+  userController.checkUser(req.body).then((userObj) => {
+        console.log("user: " + userObj);
+        var payload = {
+            userName: userObj.userName,
+            fullName: userObj.fullName,
+            role: userObj.role
+        }
+        var token = jwt.sign(payload, jwt_obj.secretOrKey);
+
+        res.json({ msg: "login successfully", token: token });
+    }).catch((e) => {
+        console.error("err: " + e);
+        res.status(404).end();
+    });
+});
+
+//auth
 
 // route redirects
 app.use('/', index);
 app.use('/post', post);
+app.use('/login', login);
 
 
 // catch 404 and forward to error handler
