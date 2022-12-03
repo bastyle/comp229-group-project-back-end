@@ -19,17 +19,20 @@ function requireAuth(req, res, next) {
 }
 
 /* GET List page -- READ Operation */
-router.get('/', passport.authenticate("jwt",{session:false}), postController.displayPostList);
+router.get('/', postController.displayPostList);
+//router.get('/', passport.authenticate("jwt",{session:false}), postController.displayPostList);
 
-router.get('/:id', passport.authenticate("jwt",{session:false}), postController.getPost);
+router.get('/:id', postController.getPost);
 
 /* POST Route for processing the Add Post Page */
-router.post('/add', passport.authenticate("jwt",{session:false}), postController.addPost);
+router.post('/add', postController.addPost);
 
 /* PUT Route - Process Update by Post ID */
-router.put('/edit/:id', passport.authenticate("jwt",{session:false}), postController.editPost);
+router.put('/edit/:id', postController.editPost);
 
 /* DELETE Route - Delete Post by Post ID */
-router.delete('/delete/:id', passport.authenticate("jwt",{session:false}), postController.deletePost);
+router.delete('/delete/:id', postController.deletePost);
+
+
 
 module.exports = router;

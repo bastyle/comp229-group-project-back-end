@@ -11,7 +11,7 @@ module.exports.displayPostList = (req, res, next) => {
         if(err) {            
             return console.error(err);
         } else {
-            console.log("postList..."+postList);
+            //console.log("postList..."+postList);
             res.status(200).send(postList);
         }
     });
