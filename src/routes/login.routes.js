@@ -8,7 +8,7 @@ const cors = require("cors");
 let userController = require('./../controllers/user');
 
 
-router.post("/api/login", function (req, res) {
+/*router.post("/api/login", function (req, res) {
     userController.checkUser(req.body).then((userObj) => {
         console.log("user: " + userObj);
         var payload = {
@@ -23,6 +23,8 @@ router.post("/api/login", function (req, res) {
         console.error("err: " + e);
         res.status(404).end();
     });
-});
+});*/
+
+router.post('/add', userController.checkUser);
 
 module.exports = router;
