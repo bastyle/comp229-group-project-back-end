@@ -36,16 +36,99 @@ let User = userModel.User;
 module.exports.checkUser = function (userData) {
     return new Promise(function (resolve, reject) {
         User.find({
-            userName: userData.userName, 
+            userName: userData.userName,
             password: userData.password
-        }).limit(1).exec().then((userObj)=>{
-            if(userObj.length == 0){
-                reject("err: user does not found: "+userData.userName);
-            }else{
+        }).limit(1).exec().then((userObj) => {
+            if (userObj.length == 0) {
+                reject("err: user does not found: " + userData.userName);
+            } else {
                 resolve(userObj);
             }
-        }).catch((e)=>{
+        }).catch((e) => {
             console.error(e);
         });
+    });
+}
+//
+module.exports.getUsers = (req, res, next) => {
+    console.log("controller::getUsers");
+    User.find((err, userList) => {
+        //console.log("err..."+err)
+        if(err) {            
+            return console.error(err);
+        } else {
+            //console.log("postList..."+postList);
+            res.status(200).send(userList);
+        }
+    });
+}
+//
+module.exports.getUserById = (req, res, next) => {
+    let id = req.params.id;
+    console.log("controller::getUserById id: " + id);
+    User.findById(id, (err, userToEdit) => {
+        console.log("getUserById err: " + err);
+        if (err) {
+            return console.error(err);
+        } else {
+            console.log("user to edit." + userToEdit);
+            res.status(200).send(userToEdit);
+        }
+    });
+}
+
+module.exports.addUser = (req, res, next) => {
+    let newUser = User({
+        "username": req.body.username,
+        "password": req.body.password,
+        "email": req.body.email,
+        "fullName": req.body.fullName,
+        "created": new Date(),
+        "updated": new Date()
+    });
+
+    User.create(newUser, (err, User) => {
+        if (err) {
+            console.log("error creating user: " + err);
+            res.end(err);
+        } else {
+            res.status(201).json({ success: true, msg: 'Successfully Added New User' });
+        }
+    });
+}
+
+
+module.exports.editUser = (req, res, next) => {
+    let id = req.params.id;
+
+    let updatedUser = User({
+        "_id": id,
+        "username": req.body.username,
+        "password": req.body.password,
+        "email": req.body.email,
+        "fullName": req.body.fullName,
+        "updated": new Date()
+    });
+
+    console.log("usr: "+JSON.stringify(updatedUser));
+
+    /*User.updateOne({_id: id}, updatedUser, (err) => {
+        if(err){
+            console.log("error editing user: " + err);
+            res.end(err);
+        }
+        else{
+            res.status(200).json({success: true, msg: 'Successfully Edited Existing User'})
+        }
+    });*/
+
+    User.updateOne({_id: id}, updatedUser, (err) => {
+        if(err){
+            console.log("error editing user: " + err);
+            res.end(err);
+        }
+        else{
+            res.status(200).json({success: true, msg: 'Successfully Edited Existing User'})
+        }
     });
 }

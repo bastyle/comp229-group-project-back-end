@@ -1,38 +1,27 @@
 let express = require('express');
 let router = express.Router();
 
-//let jwt = require('jsonwebtoken');
-
 let passport = require('passport');
-
-
-
 let postController = require('../controllers/post');
 
-// helper function for guard purposes
-function requireAuth(req, res, next) {
-    // check if the user is logged in
+/*function requireAuth(req, res, next) {
     if(!req.isAuthenticated()) {
         return res.redirect('/login');
     }
     next();
-}
+}*/
 
 /* GET List page -- READ Operation */
 router.get('/', postController.displayPostList);
-//router.get('/', passport.authenticate("jwt",{session:false}), postController.displayPostList);
-
 router.get('/:id', postController.getPost);
-
-/* POST Route for processing the Add Post Page */
 router.post('/add', postController.addPost);
-
-/* PUT Route - Process Update by Post ID */
 router.put('/edit/:id', postController.editPost);
-
-/* DELETE Route - Delete Post by Post ID */
 router.delete('/delete/:id', postController.deletePost);
 
-
+/*router.get('/', passport.authenticate("jwt",{session:false}), postController.displayPostList);
+router.get('/:id', passport.authenticate("jwt",{session:false}),postController.getPost);
+router.post('/add', passport.authenticate("jwt",{session:false}),postController.addPost);
+router.put('/edit/:id', passport.authenticate("jwt",{session:false}),postController.editPost);
+router.delete('/delete/:id', passport.authenticate("jwt",{session:false}),postController.deletePost);*/
 
 module.exports = router;

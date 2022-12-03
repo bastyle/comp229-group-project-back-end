@@ -3,6 +3,7 @@ let router = express.Router();
 //const app = exp();
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+let passport = require('passport');
 
 
 let userController = require('./../controllers/user');
@@ -27,7 +28,5 @@ router.post("/api/login", function (req, res) {
           res.status(404).end();
       });
   });
-
-//router.post('/add', userController.checkUser);
 
 module.exports = router;

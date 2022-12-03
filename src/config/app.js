@@ -24,6 +24,7 @@ mongoDB.once('open', () => {
 let index = require('../routes/index.routes.js'); // top level routes
 let post = require('../routes/posts.routes.js'); // routes for posts
 let login = require('../routes/login.routes'); // routes for login
+let user = require('../routes/user.routes'); // routes for login
 
 let app = express();
 
@@ -43,7 +44,7 @@ app.use(flash());
 
 //auth
 const passport = require("passport");
-const jwt = require("jsonwebtoken");
+//const jwt = require("jsonwebtoken");
 const passportJWT = require("passport-jwt");
 
 var jwt_obj = {
@@ -73,6 +74,7 @@ app.use(express.json());
 
 let userController = require('../controllers/user');
 
+/*
 app.get("/api", function (req, res) {
     res.json({ msg: "Hello" });
 });
@@ -92,7 +94,7 @@ app.post("/api/login", function (req, res) {
         console.error("err: " + e);
         res.status(404).end();
     });
-});
+});*/
 
 //auth
 
@@ -100,6 +102,7 @@ app.post("/api/login", function (req, res) {
 app.use('/', index);
 app.use('/post', post);
 app.use('/login', login);
+app.use('/user', user);
 
 
 // catch 404 and forward to error handler
