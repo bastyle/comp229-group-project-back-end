@@ -8,11 +8,11 @@ let passport = require('passport');
 
 let userController = require('./../controllers/user');
 
-router.get("/api", function (req, res) {
+router.get("/", function (req, res) {
     res.json({ msg: "Hello" });
 });
 
-router.post("/api/login", function (req, res) {
+router.post("/", function (req, res) {
     userController.checkUser(req.body).then((userObj) => {
           console.log("user: " + userObj);
           var payload = {

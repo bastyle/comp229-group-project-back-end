@@ -44,7 +44,7 @@ app.use(flash());
 
 //auth
 const passport = require("passport");
-//const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const passportJWT = require("passport-jwt");
 
 var jwt_obj = {
@@ -74,7 +74,7 @@ app.use(express.json());
 
 let userController = require('../controllers/user');
 
-/*
+
 app.get("/api", function (req, res) {
     res.json({ msg: "Hello" });
 });
@@ -94,14 +94,14 @@ app.post("/api/login", function (req, res) {
         console.error("err: " + e);
         res.status(404).end();
     });
-});*/
+});
 
 //auth
 
 // route redirects
 app.use('/', index);
 app.use('/post', post);
-app.use('/login', login);
+//app.use('/login', login);
 app.use('/user', user);
 
 
