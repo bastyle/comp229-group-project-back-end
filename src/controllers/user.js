@@ -79,6 +79,7 @@ module.exports.getUserById = (req, res, next) => {
 
 module.exports.addUser = (req, res, next) => {
     let newUser = User({
+        
         "username": req.body.username,
         "password": req.body.password,
         "email": req.body.email,
@@ -86,7 +87,7 @@ module.exports.addUser = (req, res, next) => {
         "created": new Date(),
         "updated": new Date()
     });
-
+    console.log("newUser"+newUser);
     User.create(newUser, (err, User) => {
         if (err) {
             console.log("error creating user: " + err);
