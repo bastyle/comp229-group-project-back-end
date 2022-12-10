@@ -14,7 +14,7 @@ module.exports.displayPostList = (req, res, next) => {
             //console.log("postList..."+postList);
             res.status(200).send(postList);
         }
-    });
+    }).sort({updated: -1});
 }
 
 
