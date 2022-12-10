@@ -34,9 +34,11 @@ let userModel = require('../models/user');
 let User = userModel.User;
 
 module.exports.checkUser = function (userData) {
+    //console.log("userData: "+userData);
+    console.log("userData: "+JSON.stringify(userData));
     return new Promise(function (resolve, reject) {
         User.find({
-            userName: userData.userName,
+            username: userData.username,
             password: userData.password
         }).limit(1).exec().then((userObj) => {
             if (userObj.length == 0) {
