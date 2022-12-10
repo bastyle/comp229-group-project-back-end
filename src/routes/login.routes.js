@@ -22,7 +22,7 @@ router.post("/", function (req, res) {
           }
           var token = jwt.sign(payload, jwt_obj.secretOrKey);
   
-          res.json({ msg: "login successfully", token: token });
+          res.json({ msg: "login successfully v2", token: token , logerUser: userObj});
       }).catch((e) => {
           console.error("err: " + e);
           res.status(404).end();

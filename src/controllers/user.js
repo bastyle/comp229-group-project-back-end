@@ -91,7 +91,8 @@ module.exports.addUser = (req, res, next) => {
     User.create(newUser, (err, User) => {
         if (err) {
             console.log("error creating user: " + err);
-            res.end(err);
+            res.status(200).json({ success: false, msg: err });
+            //res.end(err);
         } else {
             res.status(201).json({ success: true, msg: 'Successfully Added New User' });
         }
