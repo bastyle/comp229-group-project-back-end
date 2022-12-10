@@ -53,7 +53,7 @@ module.exports.checkUser = function (userData) {
 }
 //
 module.exports.getUsers = (req, res, next) => {
-    console.log("controller::getUsers");
+    //console.log("controller::getUsers");
     User.find((err, userList) => {
         //console.log("err..."+err)
         if(err) {            

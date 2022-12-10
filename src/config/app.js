@@ -54,7 +54,7 @@ var jwt_obj = {
 
 var StrategyJWT = passportJWT.Strategy;
 var strategy = new StrategyJWT(jwt_obj, function (jwt_payload, next) {
-    console.log("payload: " + jwt_payload);
+    //console.log("payload: " + jwt_payload);
     if (jwt_payload)
         next(null, {
             userName: jwt_payload.userName,
@@ -81,7 +81,7 @@ app.get("/api", function (req, res) {
 
 app.post("/api/login", function (req, res) {
   userController.checkUser(req.body).then((userObj) => {
-        console.log("user: " + userObj);
+        //console.log("user: " + userObj);
         var payload = {
             "userName": userObj.userName,
             "fullName": userObj.fullName,
